@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NestWise — Find Your Perfect Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#0f0e0c;--paper:#f9f6f0;--warm:#f2ece0;--gold:#b8860b;--gold2:#d4a017;--sage:#6b8f71;--brick:#b5451b;--mist:#9a9590;--line:#e2dcd0;--white:#ffffff;--shadow:rgba(15,14,12,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);overflow-x:hidden;}
+*{cursor:none!important;}
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.1s;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--gold);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all 0.18s ease;opacity:0.5;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 72px;background:rgba(249,246,240,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
+.logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:-0.5px;}
+.logo span{color:var(--gold);}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--mist);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-btn{background:var(--ink);color:var(--paper);padding:10px 26px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:all 0.25s;}
+.nav-btn:hover{background:var(--gold);transform:translateY(-1px);}
+.hero{min-height:100vh;display:grid;grid-template-columns:55% 45%;padding-top:82px;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 60px 80px 72px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--gold);}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,5.5vw,82px);font-weight:700;line-height:0.95;letter-spacing:-2px;margin-bottom:28px;}
+.hero h1 i{font-style:italic;color:var(--gold);}
+.hero-desc{font-size:16px;color:var(--mist);line-height:1.8;max-width:420px;margin-bottom:48px;font-weight:300;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-dark{background:var(--ink);color:var(--paper);padding:15px 34px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.25s;border:2px solid var(--ink);}
+.btn-dark:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px);box-shadow:0 10px 30px rgba(184,134,11,0.25);}
+.btn-ghost{background:transparent;color:var(--ink);padding:13px 30px;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;border:2px solid var(--line);transition:all 0.25s;}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px);}
+.hero-nums{display:flex;gap:48px;margin-top:64px;padding-top:40px;border-top:1px solid var(--line);}
+.hero-num-val{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;line-height:1;}
+.hero-num-lbl{font-size:12px;color:var(--mist);margin-top:6px;}
+.hero-right{position:relative;overflow:hidden;}
+.hero-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:100%;gap:3px;}
+.hm{background-size:cover;background-position:center;transition:transform 0.7s ease;}
+.hm:hover{transform:scale(1.04);}
+.hm1{background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80');grid-row:1/3;}
+.hm2{background-image:url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=500&q=80');}
+.hm3{background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=80');}
+.hero-pill{position:absolute;bottom:48px;left:40px;background:var(--white);border-radius:20px;padding:16px 20px;box-shadow:0 12px 40px var(--shadow);display:flex;align-items:center;gap:14px;animation:levitate 4s ease-in-out infinite;}
+@keyframes levitate{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.pill-icon{font-size:28px;}
+.pill-t{font-size:13px;font-weight:700;}
+.pill-s{font-size:11px;color:var(--mist);}
+.search-wrap{background:var(--ink);padding:52px 72px;}
+.search-label{font-family:'Cormorant Garamond',serif;font-size:20px;color:rgba(255,255,255,0.55);margin-bottom:22px;font-style:italic;}
+.search-bar{display:flex;gap:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:18px;padding:8px;}
+.sf{flex:1;display:flex;flex-direction:column;padding:12px 20px;border-right:1px solid rgba(255,255,255,0.08);}
+.sf:last-of-type{border-right:none;}
+.sf label{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px;}
+.sf input,.sf select{background:none;border:none;outline:none;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;}
+.sf select option{color:#000;}
+.sbtn{background:var(--gold);color:#fff;border:none;border-radius:12px;padding:0 30px;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif;transition:all 0.2s;white-space:nowrap;}
+.sbtn:hover{background:var(--gold2);}
+section{padding:100px 72px;}
+.tag{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:14px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,3.5vw,52px);font-weight:700;line-height:1.05;letter-spacing:-1px;margin-bottom:14px;}
+.sec-sub{font-size:15px;color:var(--mist);line-height:1.8;max-width:480px;margin-bottom:52px;font-weight:300;}
+#properties{background:var(--paper);}
+.props-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:44px;}
+.view-all{font-size:13px;color:var(--mist);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:all 0.2s;}
+.view-all:hover{color:var(--ink);border-color:var(--ink);}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.pcard{background:var(--white);border-radius:22px;overflow:hidden;border:1px solid var(--line);transition:all 0.35s;}
+.pcard:hover{transform:translateY(-8px);box-shadow:0 24px 60px var(--shadow);border-color:transparent;}
+.pimg{height:220px;background-size:cover;background-position:center;position:relative;overflow:hidden;}
+.pimg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.28) 0%,transparent 55%);}
+.pbadge{position:absolute;top:14px;left:14px;z-index:1;background:var(--white);border-radius:100px;padding:4px 14px;font-size:11px;font-weight:700;color:var(--ink);}
+.pbadge.new{background:var(--sage);color:#fff;}
+.pbadge.hot{background:var(--brick);color:#fff;}
+.psave{position:absolute;top:14px;right:14px;z-index:1;background:var(--white);border:none;border-radius:50%;width:36px;height:36px;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.psave:hover{background:var(--brick);}
+.pbody{padding:20px 24px 26px;}
+.pprice{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;margin-bottom:5px;}
+.pname{font-size:14px;font-weight:600;margin-bottom:4px;}
+.ploc{font-size:12px;color:var(--mist);margin-bottom:16px;}
+.pmeta{display:flex;gap:16px;padding-top:14px;border-top:1px solid var(--line);}
+.pmeta span{font-size:12px;color:var(--mist);}
+#how{background:var(--warm);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.step{background:var(--white);border-radius:20px;padding:32px 26px;border:1px solid var(--line);position:relative;overflow:hidden;transition:all 0.3s;}
+.step:hover{transform:translateY(-5px);box-shadow:0 16px 40px var(--shadow);}
+.step-n{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:700;color:var(--warm);position:absolute;top:-12px;right:12px;line-height:1;pointer-events:none;}
+.step-ico{font-size:30px;margin-bottom:14px;}
+.step-t{font-size:16px;font-weight:700;margin-bottom:8px;}
+.step-d{font-size:13px;color:var(--mist);line-height:1.7;}
+#services{background:var(--ink);}
+#services .sec-title{color:#fff;}
+#services .tag{color:var(--gold);}
+#services .sec-sub{color:rgba(255,255,255,0.45);}
+.svcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.svc{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:34px 30px;transition:all 0.3s;}
+.svc:hover{background:rgba(255,255,255,0.08);border-color:var(--gold);transform:translateY(-4px);}
+.svc-ico{width:50px;height:50px;border-radius:14px;background:rgba(184,134,11,0.15);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;}
+.svc-t{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;}
+.svc-d{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.75;}
+#mortgage{background:var(--paper);}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.mvis{background:var(--warm);border-radius:24px;padding:36px;border:1px solid var(--line);}
+.mvis h3{font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:28px;}
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);}
+.mrow:last-child{border:none;}
+.mlabel{font-size:13px;color:var(--mist);}
+.mval{font-size:15px;font-weight:700;}
+.mval.big{color:var(--gold);font-size:22px;font-family:'Cormorant Garamond',serif;}
+.mslider{width:100%;-webkit-appearance:none;height:3px;background:var(--line);border-radius:2px;outline:none;margin:6px 0;}
+.mslider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
+.checklist li{display:flex;gap:12px;align-items:flex-start;font-size:14px;}
+.checklist li strong{display:block;margin-bottom:3px;}
+.checklist li span{font-size:13px;color:var(--mist);}
+#areas{background:var(--paper);}
+.agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.acard{border-radius:18px;overflow:hidden;position:relative;aspect-ratio:3/4;transition:all 0.4s;}
+.acard:first-child{grid-row:span 2;aspect-ratio:auto;}
+.aimg{width:100%;height:100%;background-size:cover;background-position:center;transition:transform 0.5s;}
+.acard:hover .aimg{transform:scale(1.07);}
+.aover{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6) 0%,transparent 50%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;}
+.aname{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#fff;}
+.acnt{font-size:12px;color:rgba(255,255,255,0.65);margin-top:3px;}
+#testimonials{background:var(--warm);padding-top:80px;}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.tcard{background:var(--white);border-radius:20px;padding:30px;border:1px solid var(--line);transition:all 0.3s;}
+.tcard:hover{transform:translateY(-5px);box-shadow:0 16px 40px var(--shadow);}
+.tstars{color:var(--gold);font-size:13px;letter-spacing:3px;margin-bottom:14px;}
+.ttext{font-family:'Cormorant Garamond',serif;font-size:17px;line-height:1.7;margin-bottom:22px;font-style:italic;}
+.tauthor{display:flex;align-items:center;gap:12px;}
+.tavatar{width:42px;height:42px;border-radius:50%;background-size:cover;background-position:center;flex-shrink:0;}
+.tname{font-size:13px;font-weight:700;}
+.trole{font-size:11px;color:var(--mist);}
+#about{background:var(--paper);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-imgs{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.about-img{border-radius:20px;background-size:cover;background-position:center;aspect-ratio:4/5;}
+.about-img:last-child{margin-top:32px;}
+.about-stats{display:flex;gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid var(--line);}
+.astat-val{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;}
+.astat-lbl{font-size:12px;color:var(--mist);margin-top:4px;}
+.nwrap{background:var(--ink);padding:80px 72px;text-align:center;}
+.nwrap h2{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:#fff;margin-bottom:14px;}
+.nwrap p{color:rgba(255,255,255,0.45);margin-bottom:36px;}
+.nform{display:flex;gap:10px;max-width:460px;margin:0 auto;}
+.nform input{flex:1;padding:13px 20px;border-radius:100px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.07);color:#fff;font-family:'Outfit',sans-serif;font-size:13px;outline:none;}
+.nform input::placeholder{color:rgba(255,255,255,0.25);}
+.nform button{background:var(--gold);color:#fff;border:none;padding:13px 26px;border-radius:100px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;transition:background 0.2s;}
+.nform button:hover{background:var(--gold2);}
+footer{background:#0a0908;color:rgba(255,255,255,0.4);padding:64px 72px 32px;}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#fff;display:block;margin-bottom:14px;}
+.flogo span{color:var(--gold);}
+.fdesc{font-size:13px;line-height:1.8;margin-bottom:22px;}
+.fsocials{display:flex;gap:10px;}
+.fsocials a{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:13px;text-decoration:none;color:rgba(255,255,255,0.5);transition:all 0.2s;}
+.fsocials a:hover{background:var(--gold);color:#fff;}
+.fcol h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:18px;}
+.fcol ul{list-style:none;}
+.fcol ul li{margin-bottom:10px;}
+.fcol ul li a{font-size:12px;color:rgba(255,255,255,0.35);text-decoration:none;transition:color 0.2s;}
+.fcol ul li a:hover{color:rgba(255,255,255,0.85);}
+.fbot{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;}
+
+/* ══ CHATBOT ══ */
+.ctrigger{position:fixed;bottom:30px;right:30px;z-index:900;width:64px;height:64px;border-radius:50%;background:var(--ink);border:none;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 32px rgba(0,0,0,0.22);transition:all 0.3s;animation:pop-in 0.6s cubic-bezier(0.34,1.56,0.64,1) 1.5s both;}
+@keyframes pop-in{from{transform:scale(0);}to{transform:scale(1);}}
+.ctrigger:hover{background:var(--gold);transform:scale(1.08);}
+.ctrigger-dot{position:absolute;top:3px;right:3px;width:14px;height:14px;border-radius:50%;background:var(--sage);border:2.5px solid var(--paper);animation:blink 2.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.cwin{position:fixed;bottom:110px;right:30px;z-index:899;width:390px;height:590px;background:var(--white);border-radius:26px;box-shadow:0 28px 80px rgba(0,0,0,0.16);display:flex;flex-direction:column;overflow:hidden;transform:scale(0.88) translateY(18px);opacity:0;pointer-events:none;transition:all 0.38s cubic-bezier(0.34,1.56,0.64,1);transform-origin:bottom right;border:1px solid var(--line);}
+.cwin.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.chead{background:var(--ink);padding:18px 20px;display:flex;align-items:center;gap:13px;flex-shrink:0;}
+.chead-ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;position:relative;}
+.chead-ava::after{content:'';position:absolute;bottom:1px;right:1px;width:11px;height:11px;border-radius:50%;background:var(--sage);border:2px solid var(--ink);}
+.chead-info{flex:1;}
+.chead-name{font-size:15px;font-weight:700;color:#fff;}
+.chead-status{font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px;}
+.chead-close{background:rgba(255,255,255,0.09);border:none;border-radius:50%;width:30px;height:30px;color:rgba(255,255,255,0.6);font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.chead-close:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.cmsgs{flex:1;overflow-y:auto;padding:18px 15px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;}
+.cmsgs::-webkit-scrollbar{width:3px;}
+.cmsgs::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px;}
+.cmsg{display:flex;gap:8px;align-items:flex-end;animation:msg-pop 0.3s ease;}
+@keyframes msg-pop{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.cmsg.user{flex-direction:row-reverse;}
+.cmsg-ava{width:28px;height:28px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.cmsg.user .cmsg-ava{background:var(--gold);}
+.cmsg-body{max-width:82%;}
+.cmsg-bub{padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.6;background:var(--warm);color:var(--ink);border-bottom-left-radius:4px;}
+.cmsg.user .cmsg-bub{background:var(--ink);color:#fff;border-bottom-left-radius:16px;border-bottom-right-radius:4px;}
+.cmsg-time{font-size:10px;color:var(--mist);margin-top:4px;}
+.cmsg.user .cmsg-time{text-align:right;}
+.typing{display:flex;gap:4px;padding:10px 14px;background:var(--warm);border-radius:16px;border-bottom-left-radius:4px;width:fit-content;}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--mist);animation:typdot 1.3s infinite;}
+.typing span:nth-child(2){animation-delay:0.2s;}
+.typing span:nth-child(3){animation-delay:0.4s;}
+@keyframes typdot{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.cchips{padding:0 15px 10px;display:flex;flex-wrap:wrap;gap:7px;}
+.chip{background:var(--warm);border:1px solid var(--line);border-radius:100px;padding:6px 13px;font-size:11.5px;font-weight:500;color:var(--ink);transition:all 0.2s;font-family:'Outfit',sans-serif;}
+.chip:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+.cinput-row{padding:10px 14px 14px;border-top:1px solid var(--line);display:flex;gap:9px;align-items:flex-end;flex-shrink:0;}
+.cinput{flex:1;border:1px solid var(--line);border-radius:12px;padding:9px 13px;font-size:13px;font-family:'Outfit',sans-serif;outline:none;resize:none;max-height:90px;min-height:38px;transition:border 0.2s;background:var(--paper);color:var(--ink);}
+.cinput:focus{border-color:var(--gold);}
+.csend{width:38px;height:38px;border-radius:10px;background:var(--ink);border:none;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.csend:hover{background:var(--gold);transform:scale(1.06);}
+.cpowered{text-align:center;padding:5px 0 9px;font-size:10px;color:var(--mist);flex-shrink:0;}
+
+@media(max-width:1100px){nav{padding:18px 36px;}.hero{grid-template-columns:1fr;}.hero-left{padding:80px 36px 40px;}.hero-right{height:420px;}section{padding:64px 36px;}.search-wrap,.nwrap{padding:44px 36px;}.pgrid,.svcgrid,.tgrid{grid-template-columns:1fr 1fr;}.steps{grid-template-columns:1fr 1fr;}.fgrid{grid-template-columns:1fr 1fr;}.mgrid,.about-grid{grid-template-columns:1fr;}.agrid{grid-template-columns:1fr 1fr;}footer{padding:48px 36px 28px;}}
+@media(max-width:640px){nav{padding:16px 20px;}.nav-links{display:none;}section{padding:48px 20px;}.search-wrap,.nwrap{padding:36px 20px;}.search-bar{flex-direction:column;}.sf{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08);}.pgrid,.svcgrid,.tgrid,.steps{grid-template-columns:1fr;}.fgrid{grid-template-columns:1fr;}.agrid{grid-template-columns:1fr 1fr;}.cwin{width:calc(100vw - 28px);right:14px;bottom:96px;}footer{padding:40px 20px 24px;}.nform{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<nav>
+  <a href="#" class="logo">Nest<span>Wise</span></a>
+  <ul class="nav-links">
+    <li><a href="#properties">Properties</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#mortgage">Mortgage</a></li>
+    <li><a href="#areas">Areas</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#properties" class="nav-btn">Browse Homes</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">UK's Most Trusted Property Platform</div>
+    <h1>Find the Home<br/>You've Always<br/><i>Dreamed Of.</i></h1>
+    <p class="hero-desc">Browse thousands of verified properties across the UK. Whether buying, renting, or investing — NestWise guides you every step of the way.</p>
+    <div class="hero-btns">
+      <a href="#properties" class="btn-dark">Explore Properties</a>
+      <a href="#mortgage" class="btn-ghost">Mortgage Calculator</a>
+    </div>
+    <div class="hero-nums">
+      <div><div class="hero-num-val">12,400+</div><div class="hero-num-lbl">Active Listings</div></div>
+      <div><div class="hero-num-val">8,200+</div><div class="hero-num-lbl">Happy Families</div></div>
+      <div><div class="hero-num-val">98%</div><div class="hero-num-lbl">Satisfaction Rate</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-mosaic">
+      <div class="hm hm1"></div>
+      <div class="hm hm2"></div>
+      <div class="hm hm3"></div>
+    </div>
+    <div class="hero-pill"><div class="pill-icon">🔑</div><div><div class="pill-t">340 new this week</div><div class="pill-s">Fresh listings just added</div></div></div>
+  </div>
+</section>
+
+<div class="search-wrap">
+  <div class="search-label">Search properties across the United Kingdom</div>
+  <div class="search-bar">
+    <div class="sf"><label>Location</label><input type="text" placeholder="City, postcode or area…"/></div>
+    <div class="sf"><label>Type</label><select><option>Any Type</option><option>Detached House</option><option>Semi-Detached</option><option>Terraced</option><option>Flat / Apartment</option><option>Bungalow</option><option>New Build</option></select></div>
+    <div class="sf"><label>Bedrooms</label><select><option>Any</option><option>Studio</option><option>1 Bed</option><option>2 Beds</option><option>3 Beds</option><option>4+ Beds</option></select></div>
+    <div class="sf"><label>Max Price</label><select><option>No Limit</option><option>£100,000</option><option>£250,000</option><option>£500,000</option><option>£750,000</option><option>£1,000,000+</option></select></div>
+    <button class="sbtn">Search →</button>
+  </div>
+</div>
+
+<section id="properties">
+  <div class="props-hdr"><div><div class="tag">Featured Listings</div><h2 class="sec-title">Handpicked Properties</h2></div><a href="#" class="view-all">View all listings →</a></div>
+  <div class="pgrid">
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80')"><span class="pbadge hot">Hot</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£485,000</div><div class="pname">Elmwood Residence</div><div class="ploc">📍 Kensington, London</div><div class="pmeta"><span>🛏 4 Beds</span><span>🚿 2 Baths</span><span>📐 1,850 sqft</span></div></div></div>
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80')"><span class="pbadge new">New</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£320,000</div><div class="pname">Birchwood Cottage</div><div class="ploc">📍 Didsbury, Manchester</div><div class="pmeta"><span>🛏 3 Beds</span><span>🚿 1 Bath</span><span>📐 1,200 sqft</span></div></div></div>
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80')"><span class="pbadge">For Sale</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£675,000</div><div class="pname">The Oaks Manor</div><div class="ploc">📍 Clifton, Bristol</div><div class="pmeta"><span>🛏 5 Beds</span><span>🚿 3 Baths</span><span>📐 2,400 sqft</span></div></div></div>
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80')"><span class="pbadge">To Let</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£2,100/mo</div><div class="pname">Harbour View Flat</div><div class="ploc">📍 Waterfront, Edinburgh</div><div class="pmeta"><span>🛏 2 Beds</span><span>🚿 2 Baths</span><span>📐 950 sqft</span></div></div></div>
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=600&q=80')"><span class="pbadge new">New Build</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£410,000</div><div class="pname">Greenfield Terrace</div><div class="ploc">📍 Headingley, Leeds</div><div class="pmeta"><span>🛏 3 Beds</span><span>🚿 2 Baths</span><span>📐 1,350 sqft</span></div></div></div>
+    <div class="pcard"><div class="pimg" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80')"><span class="pbadge">For Sale</span><button class="psave">🤍</button></div><div class="pbody"><div class="pprice">£550,000</div><div class="pname">Millbrook Villa</div><div class="ploc">📍 Jesmond, Newcastle</div><div class="pmeta"><span>🛏 4 Beds</span><span>🚿 2 Baths</span><span>📐 1,900 sqft</span></div></div></div>
+  </div>
+</section>
+
+<section id="how">
+  <div style="text-align:center;max-width:560px;margin:0 auto 52px;"><div class="tag">Simple Process</div><h2 class="sec-title">Your Journey to a New Home</h2></div>
+  <div class="steps">
+    <div class="step"><div class="step-n">01</div><div class="step-ico">🔍</div><div class="step-t">Search &amp; Filter</div><div class="step-d">Smart search by location, price, size, and type to find your perfect match instantly.</div></div>
+    <div class="step"><div class="step-n">02</div><div class="step-ico">📅</div><div class="step-t">Book a Viewing</div><div class="step-d">Schedule in-person or virtual viewings directly at your convenience.</div></div>
+    <div class="step"><div class="step-n">03</div><div class="step-ico">💷</div><div class="step-t">Make an Offer</div><div class="step-d">Submit online — our experts handle negotiation and affordability checks.</div></div>
+    <div class="step"><div class="step-n">04</div><div class="step-ico">🔑</div><div class="step-t">Get Your Keys</div><div class="step-d">Legal process with our conveyancing partners — collect your keys on completion.</div></div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="tag">What We Offer</div>
+  <h2 class="sec-title">Everything You Need,<br/>All in One Place.</h2>
+  <p class="sec-sub">From valuations to mortgages — the complete UK property ecosystem.</p>
+  <div class="svcgrid">
+    <div class="svc"><div class="svc-ico">🏠</div><div class="svc-t">Buy a Property</div><div class="svc-d">Thousands of verified for-sale listings with expert guidance from first viewing to final completion.</div></div>
+    <div class="svc"><div class="svc-ico">🗝️</div><div class="svc-t">Rent a Home</div><div class="svc-d">Tenant-verified rentals across the UK. Transparent fees, no hidden charges, flexible terms.</div></div>
+    <div class="svc"><div class="svc-ico">📊</div><div class="svc-t">Property Valuation</div><div class="svc-d">Free instant online estimates or certified in-person valuations by our local property experts.</div></div>
+    <div class="svc"><div class="svc-ico">💰</div><div class="svc-t">Mortgage Advice</div><div class="svc-d">FCA-regulated advisors compare 90+ lenders to find the best rate. Free initial consultation.</div></div>
+    <div class="svc"><div class="svc-ico">📋</div><div class="svc-t">Conveyancing</div><div class="svc-d">Fixed-fee legal service with our trusted solicitor panel. Online case tracking 24/7.</div></div>
+    <div class="svc"><div class="svc-ico">📈</div><div class="svc-t">Property Investment</div><div class="svc-d">Market analytics, rental yield forecasts and ROI tools to identify high-value opportunities.</div></div>
+  </div>
+</section>
+
+<section id="mortgage">
+  <div class="mgrid">
+    <div>
+      <div class="tag">Mortgage Calculator</div>
+      <h2 class="sec-title">How Much Can<br/>You Afford?</h2>
+      <p class="sec-sub">Estimate your monthly repayments instantly. Our advisors compare 90+ lenders for your best deal.</p>
+      <ul class="checklist">
+        <li><span style="font-size:20px">✅</span><div><strong>Compare 90+ lenders</strong><span>We search the whole market — no bias, no shortcuts.</span></div></li>
+        <li><span style="font-size:20px">✅</span><div><strong>Free affordability check</strong><span>Zero impact on your credit score.</span></div></li>
+        <li><span style="font-size:20px">✅</span><div><strong>Decision in 24 hours</strong><span>Fast approvals for qualified UK buyers.</span></div></li>
+      </ul>
+      <a href="#" class="btn-dark">Speak to an Advisor</a>
+    </div>
+    <div class="mvis">
+      <h3>Monthly Repayment Estimate</h3>
+      <div class="mrow"><div><div class="mlabel">Property Price</div><input type="range" class="mslider" id="pp" min="50000" max="1000000" value="350000" step="5000"/></div><div class="mval" id="ppv">£350,000</div></div>
+      <div class="mrow"><div><div class="mlabel">Deposit (%)</div><input type="range" class="mslider" id="dp" min="5" max="40" value="20" step="1"/></div><div class="mval" id="dpv">20%</div></div>
+      <div class="mrow"><div><div class="mlabel">Interest Rate (%)</div><input type="range" class="mslider" id="ir" min="1" max="9" value="4.5" step="0.1"/></div><div class="mval" id="irv">4.5%</div></div>
+      <div class="mrow"><div><div class="mlabel">Term (years)</div><input type="range" class="mslider" id="tm" min="10" max="35" value="25" step="1"/></div><div class="mval" id="tmv">25 yrs</div></div>
+      <div class="mrow" style="margin-top:10px;"><div class="mlabel" style="font-weight:700;color:var(--ink);">Est. Monthly Payment</div><div class="mval big" id="mp">£1,471</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="areas">
+  <div class="tag">Explore by Area</div>
+  <h2 class="sec-title" style="margin-bottom:8px;">Popular UK Locations</h2>
+  <p class="sec-sub">Discover homes in the most sought-after neighbourhoods across Britain.</p>
+  <div class="agrid">
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=700&q=80');"></div><div class="aover"><div class="aname">London</div><div class="acnt">4,200+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=500&q=80');"></div><div class="aover"><div class="aname">Manchester</div><div class="acnt">1,800+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80');"></div><div class="aover"><div class="aname">Edinburgh</div><div class="acnt">920+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1570126646281-5ec88111777f?w=500&q=80');"></div><div class="aover"><div class="aname">Bristol</div><div class="acnt">740+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500&q=80');"></div><div class="aover"><div class="aname">Leeds</div><div class="acnt">1,100+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=500&q=80');"></div><div class="aover"><div class="aname">Birmingham</div><div class="acnt">1,560+ listings</div></div></div>
+    <div class="acard"><div class="aimg" style="background-image:url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&q=80');"></div><div class="aover"><div class="aname">Cardiff</div><div class="acnt">580+ listings</div></div></div>
+  </div>
+</section>
+
+<section id="testimonials" style="background:var(--warm);padding-top:80px;">
+  <div style="text-align:center;max-width:520px;margin:0 auto 48px;"><div class="tag">Real Stories</div><h2 class="sec-title">What Our Clients Say</h2></div>
+  <div class="tgrid">
+    <div class="tcard"><div class="tstars">★★★★★</div><div class="ttext">"NestWise made buying our first home genuinely exciting. The advisor on the chat answered our questions at midnight — felt like a real person who actually cared!"</div><div class="tauthor"><div class="tavatar" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80');"></div><div><div class="tname">Sarah Mitchell</div><div class="trole">First-Time Buyer, London</div></div></div></div>
+    <div class="tcard"><div class="tstars">★★★★★</div><div class="ttext">"Sold above asking price in under 3 weeks. Completely transparent process and the valuation tool was spot on — I couldn't be happier."</div><div class="tauthor"><div class="tavatar" style="background-image:url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80');"></div><div><div class="tname">James Thornton</div><div class="trole">Property Seller, Manchester</div></div></div></div>
+    <div class="tcard"><div class="tstars">★★★★★</div><div class="ttext">"The mortgage calculator was a revelation. Our advisor found us a rate 0.4% lower than our bank — that's thousands saved over the full term!"</div><div class="tauthor"><div class="tavatar" style="background-image:url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80');"></div><div><div class="tname">Priya Sharma</div><div class="trole">Home Buyer, Bristol</div></div></div></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="tag">About NestWise</div>
+      <h2 class="sec-title">Your Trusted Partner<br/>Since 2008</h2>
+      <p style="font-size:15px;color:var(--mist);line-height:1.85;margin-bottom:20px;font-weight:300;">NestWise was founded on a simple belief: finding your home should feel like an adventure, not an ordeal. We combine cutting-edge technology with genuine human expertise to make property transactions simpler, fairer, and faster.</p>
+      <p style="font-size:15px;color:var(--mist);line-height:1.85;margin-bottom:36px;font-weight:300;">Our 200+ property experts, mortgage advisors, and legal specialists work together under one roof — the most complete property service in the UK.</p>
+      <div class="about-stats">
+        <div><div class="astat-val">15+</div><div class="astat-lbl">Years Experience</div></div>
+        <div><div class="astat-val">200+</div><div class="astat-lbl">Expert Advisors</div></div>
+        <div><div class="astat-val">50+</div><div class="astat-lbl">UK Offices</div></div>
+      </div>
+    </div>
+    <div class="about-imgs">
+      <div class="about-img" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80');"></div>
+      <div class="about-img" style="background-image:url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=80');"></div>
+    </div>
+  </div>
+</section>
+
+<div class="nwrap">
+  <h2>Stay Ahead of the Market</h2>
+  <p>Join 35,000+ subscribers receiving weekly curated property alerts and market insights.</p>
+  <div class="nform"><input type="email" placeholder="Enter your email address…"/><button>Subscribe Free →</button></div>
+</div>
+
+<footer>
+  <div class="fgrid">
+    <div><span class="flogo">Nest<span>Wise</span></span><p class="fdesc">The UK's most comprehensive property platform. Buy, sell, rent and invest — all in one trusted place since 2008.</p><div class="fsocials"><a href="#">𝕏</a><a href="#">in</a><a href="#">f</a><a href="#">📸</a></div></div>
+    <div class="fcol"><h4>Properties</h4><ul><li><a href="#">For Sale</a></li><li><a href="#">To Rent</a></li><li><a href="#">New Builds</a></li><li><a href="#">Commercial</a></li><li><a href="#">Overseas</a></li></ul></div>
+    <div class="fcol"><h4>Services</h4><ul><li><a href="#">Mortgage Advice</a></li><li><a href="#">Valuation</a></li><li><a href="#">Conveyancing</a></li><li><a href="#">Surveying</a></li><li><a href="#">Investment</a></li></ul></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li><li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="fbot"><span>© 2026 NestWise Ltd. All rights reserved. FCA Authorised &amp; Regulated.</span><span>Registered in England &amp; Wales No. 07823441</span></div>
+</footer>
+
+<!-- CHATBOT -->
+<button class="ctrigger" id="ctrigger" onclick="toggleChat()">
+  <span id="ctriggerIcon">💬</span>
+  <div class="ctrigger-dot"></div>
+</button>
+
+<div class="cwin" id="cwin">
+  <div class="chead">
+    <div class="chead-ava">👩‍💼</div>
+    <div class="chead-info">
+      <div class="chead-name">Sophie · NestWise ✓</div>
+      <div class="chead-status" id="cstatus">Online · replies instantly</div>
+    </div>
+    <button class="chead-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="cmsgs" id="cmsgs"></div>
+  <div class="cchips" id="cchips">
+    <button class="chip" onclick="sendChip(this)">🏠 Find a property</button>
+    <button class="chip" onclick="sendChip(this)">💰 Mortgage help</button>
+    <button class="chip" onclick="sendChip(this)">📋 Buying process</button>
+    <button class="chip" onclick="sendChip(this)">📍 Popular areas</button>
+    <button class="chip" onclick="sendChip(this)">📊 Get a valuation</button>
+  </div>
+  <div class="cinput-row">
+    <textarea class="cinput" id="cinput" placeholder="Type your message…" rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+    <button class="csend" onclick="sendMsg()">➤</button>
+  </div>
+  <div class="cpowered">NestWise AI · Available 24 / 7 · Completely free</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  CONFIG — paste your OpenAI key to enable
+//  GPT responses. Leave as-is for built-in
+//  smart fallback (no key needed, free).
+// ══════════════════════════════════════════
+const OPENAI_KEY = "YOUR_OPENAI_API_KEY_HERE";
+
+const KB = `You are Sophie, a warm and knowledgeable property advisor at NestWise — the UK's leading property platform. You work Mon–Fri but the AI version of you is available 24/7.
+
+PERSONALITY RULES — these are critical:
+- Sound like a real human advisor, not a bot. Use contractions: I'm, we've, you'll, that's, it's.
+- Be warm, enthusiastic, and genuinely interested in helping.
+- Use natural phrases: "Absolutely!", "Great question!", "Of course!", "That's a really common one!", "Oh that's exciting!", "Brilliant choice!"
+- Ask one natural follow-up question at the end of replies, like a real advisor would.
+- Keep replies to 2–5 sentences max. Short and helpful, not essay-length.
+- Use occasional light emojis — not excessive, just natural.
+- Never say "I'm an AI" or "As a language model". You are Sophie, a NestWise advisor.
+
+ABOUT NESTWISE:
+- Founded 2008, 15+ years, FCA authorised, registered England & Wales
+- 12,400+ active listings · 8,200+ happy families · 98% satisfaction
+- 200+ advisors · 50+ UK office locations
+
+SERVICES: Buy, Rent, Valuation (free), Mortgage Advice (FCA, 90+ lenders, free consult), Conveyancing (fixed-fee), Investment tools
+
+BUYING PROCESS: Search → Book Viewing → Make Offer → Get Keys
+
+MORTGAGE: 90+ lenders, free affordability check (no credit impact), 24hr decisions
+
+LOCATIONS: London 4200+, Manchester 1800+, Birmingham 1560+, Leeds 1100+, Edinburgh 920+, Bristol 740+, Cardiff 580+
+
+PROPERTIES: Elmwood Kensington £485k 4bed | Birchwood Manchester £320k 3bed | Oaks Bristol £675k 5bed | Harbour Edinburgh £2100/mo 2bed | Greenfield Leeds £410k 3bed | Millbrook Newcastle £550k 4bed
+
+RULES: Only answer NestWise/UK property topics. Never invent listings. Recommend advisor for detailed legal/financial questions. If unsure, be honest and offer to escalate.`;
+
+let chatOpen=false,history=[],awaitEmail=false,pendingQ="",greeted=false;
+
+// Cursor
+const cur=document.getElementById("cur"),curRing=document.getElementById("curRing");
+document.addEventListener("mousemove",e=>{cur.style.left=e.clientX+"px";cur.style.top=e.clientY+"px";curRing.style.left=e.clientX+"px";curRing.style.top=e.clientY+"px";});
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById("cwin").classList.toggle("open",chatOpen);
+  document.getElementById("ctriggerIcon").textContent=chatOpen?"✕":"💬";
+  if(chatOpen&&!greeted){greeted=true;showGreeting();}
+}
+
+function showGreeting(){
+  const h=new Date().getHours();
+  const tg=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  const msgs=[
+    `${tg}! 😊 It's so lovely to have you here — I'm Sophie, your personal property advisor at NestWise.`,
+    `I'm here to help with anything property-related — whether that's finding your dream home, understanding mortgages, getting a valuation, or just having a browse to see what's out there.`,
+    `What brings you to NestWise today? I'd genuinely love to help you find exactly what you're looking for! 🏡`
+  ];
+  let delay=700;
+  msgs.forEach((msg,i)=>{
+    setTimeout(()=>typeAndShow(msg,i<msgs.length-1),delay);
+    delay+=Math.min(msg.length*20+800,2600);
+  });
+}
+
+function typeAndShow(text,moreFollow){
+  const msgs=document.getElementById("cmsgs");
+  const td=document.createElement("div");
+  td.className="cmsg bot";td.id="typediv";
+  td.innerHTML=`<div class="cmsg-ava">👩‍💼</div><div class="typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(td);msgs.scrollTop=msgs.scrollHeight;
+  document.getElementById("cstatus").textContent="Sophie is typing…";
+  const wait=Math.min(text.length*20+300,2000);
+  setTimeout(()=>{
+    td.remove();addBot(text);
+    if(!moreFollow)document.getElementById("cstatus").textContent="Online · replies instantly";
+  },wait);
+}
+
+function addBot(text){
+  const msgs=document.getElementById("cmsgs");
+  const d=document.createElement("div");d.className="cmsg bot";
+  d.innerHTML=`<div class="cmsg-ava">👩‍💼</div><div class="cmsg-body"><div class="cmsg-bub">${text.replace(/\n/g,"<br>")}</div><div class="cmsg-time">${now()}</div></div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function addUser(text){
+  const msgs=document.getElementById("cmsgs");
+  const d=document.createElement("div");d.className="cmsg user";
+  d.innerHTML=`<div class="cmsg-body"><div class="cmsg-bub">${esc(text)}</div><div class="cmsg-time">${now()}</div></div><div class="cmsg-ava">👤</div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function now(){return new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function fixSpell(t){
+  const m={"proprty":"property","proerty":"property","mortage":"mortgage","mortgae":"mortgage","afforability":"affordability","valution":"valuation","afordable":"affordable","bedrom":"bedroom","sellng":"selling","rentin":"renting","advsor":"advisor","investement":"investment","purchas":"purchase","buyin":"buying","hous":"house","teh":"the","wnat":"want","adn":"and"};
+  let o=t,f=false;
+  Object.entries(m).forEach(([w,r])=>{const re=new RegExp(`\\b${w}\\b`,"gi");if(re.test(o)){o=o.replace(re,r);f=true;}});
+  return{o,f};
+}
+
+async function sendMsg(){
+  const inp=document.getElementById("cinput");
+  const raw=inp.value.trim();if(!raw)return;
+  inp.value="";autoGrow(inp);
+  document.getElementById("cchips").style.display="none";
+
+  if(awaitEmail){
+    addUser(raw);awaitEmail=false;
+    const yes=/^(yes|y|yeah|yep|sure|ok|okay|send|go ahead|please)/i.test(raw);
+    if(yes)typeAndShow(`Perfect! I've passed your question — "<em>${esc(pendingQ)}</em>" — on to our specialist team. 📩 They'll get back to you as soon as possible. Is there anything else I can help you with right now?`,false);
+    else typeAndShow("No worries at all! Feel free to ask me anything else — I'm here for you. 😊",false);
+    pendingQ="";return;
+  }
+
+  const{o:cor,f:fixed}=fixSpell(raw);
+  addUser(raw);
+  if(fixed&&cor.toLowerCase()!==raw.toLowerCase())addBot(`<em style="font-size:11px;color:var(--mist);">✍️ Quick spell-check — answering: "${esc(cor)}"</em>`);
+
+  document.getElementById("cstatus").textContent="Sophie is typing…";
+
+  try{
+    history.push({role:"user",content:cor});
+    let answer="";
+    if(OPENAI_KEY&&OPENAI_KEY!=="YOUR_OPENAI_API_KEY_HERE"){
+      const res=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":`Bearer ${OPENAI_KEY}`},body:JSON.stringify({model:"gpt-4o-mini",messages:[{role:"system",content:KB},...history.slice(-10)],temperature:0.78,max_tokens:350})});
+      const data=await res.json();
+      answer=data.choices?.[0]?.message?.content||"";
+    } else {
+      answer=local(cor);
+    }
+    document.getElementById("cstatus").textContent="Online · replies instantly";
+    if(!answer||answer.includes("__404__")){
+      typeAndShow(`Hmm, that's a really specific one — I want to make sure you get the right answer rather than me guessing! 🤔 Would you like me to <strong>pass this to one of our property specialists</strong> who can give you a proper answer? Just say yes and I'll sort it right now.`,false);
+      awaitEmail=true;pendingQ=cor;
+    } else {
+      typeAndShow(answer.replace(/\n/g,"<br>"),false);
+      history.push({role:"assistant",content:answer});
+      if(history.length>20)history=history.slice(-20);
+    }
+  }catch(e){
+    document.getElementById("cstatus").textContent="Online · replies instantly";
+    const fb=local(cor);
+    if(fb)typeAndShow(fb.replace(/\n/g,"<br>"),false);
+    else typeAndShow("Apologies, I'm having a tiny hiccup! Our team is available Mon–Fri 9am–6pm if you need immediate help. 😊",false);
+  }
+}
+
+function local(q){
+  const ql=q.toLowerCase();
+  if(/\b(hi|hello|hey|hiya|howdy|good\s*(morning|afternoon|evening))\b/.test(ql))return"Hey there! 😊 Lovely to hear from you. I'm Sophie — what can I help you with today? Whether it's finding a home, mortgages, or just getting a feel for the market, I'm all yours!";
+  if(/\bthanks?\b|\bthank\s*you\b|\bcheers\b/.test(ql))return"Absolutely my pleasure — that's exactly what I'm here for! 😊 Is there anything else you'd like to know?";
+  if(/\b(buy|purchase|buying|for\s*sale)\b/.test(ql))return"Oh how exciting — searching for a new home is such a big moment! 🏠 At NestWise the process is really simple: search our 12,400+ listings, book a viewing (in-person or virtual), make your offer with our expert support, and collect your keys on completion day. Is there a particular area or budget you have in mind? I'd love to help narrow things down!";
+  if(/\b(rent|rental|renting|to\s*let|letting)\b/.test(ql))return"Of course! We've got thousands of verified rental properties right across the UK 🗝️ — all with transparent fees and absolutely no hidden charges. Do you have a specific city or area in mind, or a rough budget? I can point you in exactly the right direction!";
+  if(/\b(mortgage|afford|borrow|lend|rate|repayment)\b/.test(ql))return"Great question — mortgages can feel a bit overwhelming but honestly, we make it really painless! 💰 Our FCA-regulated advisors compare 90+ lenders to find your best rate, completely free, with zero impact on your credit score. Most people get a decision within 24 hours. Have you tried the Mortgage Calculator on this page yet? It gives you a really handy monthly figure!";
+  if(/\b(valuation|worth|value|how\s*much\s*is)\b/.test(ql))return"Great idea to get a handle on your property's value! 📊 We offer a free instant online estimate and a free certified in-person valuation from our local experts — both with absolutely no obligation. Would you like to arrange one? Just let me know your rough location and I'll get the ball rolling!";
+  if(/\blondon\b/.test(ql))return"London is always in demand — and we've got over 4,200+ listings across the capital right now! 🏙️ From gorgeous flats in Zone 2 to spacious family homes in the suburbs, there really is something for every budget. Is there a particular part of London you're thinking of? I can be much more helpful with a bit more detail!";
+  if(/\bmanchester\b/.test(ql))return"Manchester is such a brilliant city — fantastic lifestyle and genuinely great value compared to London! 🐝 We have 1,800+ listings there right now. Are you thinking of buying or renting? And do you have a preference for the city centre, Didsbury, Chorlton, or another area?";
+  if(/\bedinburgh\b/.test(ql))return"Edinburgh is absolutely stunning — one of the most beautiful cities in the UK! 🏰 We have 920+ listings there, from lovely tenement flats to spacious family homes. What's drawing you to Edinburgh — lifestyle, work, or investment?";
+  if(/\bbristol\b/.test(ql))return"Bristol is such a vibrant, exciting city — brilliant community feel and a great property market! 🌉 We have 740+ listings right now, including some gorgeous properties in Clifton and beyond. What kind of property are you after?";
+  if(/\b(first.?time|first\s*home|ftb|first.?buyer)\b/.test(ql))return"Oh how exciting — buying your first home is such a huge milestone, congratulations on taking this step! 🎉 We're really well set up to help first-time buyers — from finding the right property to sorting your mortgage and the legal side. Where are you thinking of buying, and do you have a rough budget in mind?";
+  if(/\b(invest|investment|buy.to.let|yield|roi|return)\b/.test(ql))return"Property investment is looking really interesting in several UK cities right now! 📈 We have a full suite of tools — market analytics, rental yield forecasts, ROI calculators — to help you find the best opportunities. Would you like to speak with one of our investment specialists? They can give you a proper picture of where the best returns are at the moment.";
+  if(/\b(convey|solicitor|legal|lawyer|completion)\b/.test(ql))return"The legal side is where a lot of people get nervous — but with us it's genuinely really smooth! 📋 We offer fixed-fee conveyancing through our trusted solicitor panel, with full online case tracking so you always know where things stand. No hidden costs, no nasty surprises. Would you like to get a quote?";
+  if(/\b(contact|phone|speak|human|agent|advisor|person|call|email)\b/.test(ql))return"Of course — sometimes you just want to speak with a real person, and that's completely understandable! 😊 Our advisors are available Monday–Friday, 9am–6pm. We've also got 50+ offices across the UK if you'd prefer to pop in for a chat. What would you like to discuss? I can make sure I point you to exactly the right person!";
+  if(/\b(epc|energy|certificate|efficiency)\b/.test(ql))return"Great question! An EPC (Energy Performance Certificate) rates how energy-efficient a property is from A to G 🌿 — it's legally required for all properties being sold or rented. It gives you a really useful picture of likely energy bills and any improvements that could save you money. You can view the EPC for any of our listings directly on the property page. Is there a specific property you'd like to check?";
+  if(/\b(fee|cost|charge|price|how\s*much)\b/.test(ql))return"Completely fair question — nobody likes unexpected costs! 💷 Our property search is entirely free. Mortgage advice is free to you (we're paid by lenders). Conveyancing is fixed-fee with full transparency upfront. Is there a specific service you'd like a quote for? I'm happy to walk you through exactly what's involved!";
+  return null;
+}
+
+function sendChip(el){document.getElementById("cinput").value=el.textContent.replace(/^[^\w]+/,"").trim();sendMsg();}
+function handleKey(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMsg();}}
+function autoGrow(el){el.style.height="auto";el.style.height=Math.min(el.scrollHeight,90)+"px";}
+
+// Mortgage calculator
+function calcMort(){
+  const p=parseInt(document.getElementById("pp").value);
+  const d=parseInt(document.getElementById("dp").value)/100;
+  const r=parseFloat(document.getElementById("ir").value)/100/12;
+  const n=parseInt(document.getElementById("tm").value)*12;
+  const loan=p*(1-d);
+  const m=r===0?loan/n:(loan*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  document.getElementById("ppv").textContent="£"+p.toLocaleString();
+  document.getElementById("dpv").textContent=document.getElementById("dp").value+"%";
+  document.getElementById("irv").textContent=document.getElementById("ir").value+"%";
+  document.getElementById("tmv").textContent=document.getElementById("tm").value+" yrs";
+  document.getElementById("mp").textContent="£"+Math.round(m).toLocaleString();
+}
+["pp","dp","ir","tm"].forEach(id=>document.getElementById(id).addEventListener("input",calcMort));
+calcMort();
+</script>
+</body>
+</html>
