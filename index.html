@@ -425,6 +425,8 @@ footer{background:#0a0908;color:rgba(255,255,255,0.4);padding:64px 72px 32px;}
 //  smart fallback (no key needed, free).
 // ══════════════════════════════════════════
 const OPENAI_KEY = "YOUR_OPENAI_API_KEY_HERE";
+const COLAB_API  = "https://noninterpretively-catadioptric-fonda.ngrok-free.dev";
+const USE_COLAB  = true;
 
 const KB = `You are Sophie, a warm and knowledgeable property advisor at NestWise — the UK's leading property platform. You work Mon–Fri but the AI version of you is available 24/7.
 
@@ -519,10 +521,90 @@ function fixSpell(t){
 }
 
 async function sendMsg(){
-  const inp=document.getElementById("cinput");
-  const raw=inp.value.trim();if(!raw)return;
-  inp.value="";autoGrow(inp);
-  document.getElementById("cchips").style.display="none";
+  const inp = document.getElementById("cinput");
+  const raw = inp.value.trim();
+  if (!raw) return;
+  inp.value = ""; autoGrow(inp);
+  document.getElementById("cchips").style.display = "none";
+
+  if (awaitTicket) {
+    addUser(raw); awaitTicket = false;
+    const yes = /^(yes|y|yeah|yep|sure|ok|okay|send|go ahead|please)/i.test(raw);
+    if (yes) {
+      document.getElementById("cstatus").textContent = "Raising ticket…";
+      const ctx = history.slice(-4).map(m => (m.role==="user" ? "User: " : "Sophie: ") + m.content).join("\n");
+      try {
+        await fetch(COLAB_API + "/ticket", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({question: pendingQ, context: ctx})
+        });
+      } catch(e) { console.log("ticket error:", e); }
+      document.getElementById("cstatus").textContent = "Online · replies instantly";
+      typeAndShow(
+        `All done! ✅ Your question has been sent to our specialist team.<br><br>` +
+        `Once they reply, their answer gets saved into my knowledge base automatically — ` +
+        `so I can answer it for everyone from that point on! Anything else I can help with? 😊`, false
+      );
+    } else {
+      typeAndShow("No worries at all! Feel free to ask anything else. 😊", false);
+    }
+    pendingQ = ""; return;
+  }
+
+  const {o: cor, f: fixed} = fixSpell(raw);
+  addUser(raw);
+  if (fixed && cor.toLowerCase() !== raw.toLowerCase()) {
+    addBot(`<em style="font-size:11px;color:var(--mist);">✍️ Spell-check — answering: "${esc(cor)}"</em>`);
+  }
+
+  document.getElementById("cstatus").textContent = "Sophie is typing…";
+  history.push({role: "user", content: cor});
+
+  try {
+    const res = await fetch(COLAB_API + "/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({message: cor, history: history.slice(-10)})
+    });
+    const data = await res.json();
+    document.getElementById("cstatus").textContent = "Online · replies instantly";
+
+    if (data.spell_note) {
+      addBot(`<em style="font-size:11px;color:var(--mist);">${data.spell_note}</em>`);
+    }
+
+    if (data.found && data.answer) {
+      typeAndShow(data.answer.replace(/\n/g,"<br>"), false);
+      history.push({role:"assistant", content: data.answer});
+      if (history.length > 20) history = history.slice(-20);
+    } else {
+      typeAndShow(
+        `Hmm, I want to make sure I give you the right answer on that one! 🤔<br><br>` +
+        `I can <strong>raise a support ticket</strong> right now — our team will answer it and ` +
+        `I'll automatically learn it for everyone going forward.<br><br>` +
+        `<strong>Shall I send it to the team?</strong> (yes / no)`, false
+      );
+      awaitTicket = true;
+      pendingQ = data.corrected || cor;
+    }
+
+  } catch(e) {
+    document.getElementById("cstatus").textContent = "Online · replies instantly";
+    const fb = local(cor);
+    if (fb) {
+      typeAndShow(fb.replace(/\n/g,"<br>"), false);
+      history.push({role:"assistant", content: fb});
+    } else {
+      typeAndShow(
+        `Hmm, I want to make sure I give you the right answer! 🤔<br><br>` +
+        `<strong>Shall I raise a support ticket?</strong> (yes / no)`, false
+      );
+      awaitTicket = true;
+      pendingQ = cor;
+    }
+  }
+}
 
   if(awaitEmail){
     addUser(raw);awaitEmail=false;
